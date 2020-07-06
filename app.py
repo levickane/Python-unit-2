@@ -6,6 +6,10 @@ players_copy = copy.deepcopy(constants.PLAYERS)
 
 
 def clean_PLAYERS_height(players):
+    """this function takes the value of the key, 'height' and splits it at the space.
+        then we take the first object of the list [0] and convert that to an integer.
+        then we define that the player['height'] is now equal to that integer
+    """
     for player in players:
         for key, value in player.items():
             if key == 'height':
@@ -15,6 +19,9 @@ def clean_PLAYERS_height(players):
 
 
 def clean_PLAYERS_experience(players):
+    """this function takes the key, 'experience' and if it's value == 'yes' then we set
+    the boolean value to TRUE. Else, we set the boolean value to FALSE
+    """
     for player in players:
         for key, value in player.items():
             if key == 'experience':
@@ -25,6 +32,9 @@ def clean_PLAYERS_experience(players):
 
 
 def clean_PLAYERS_guardians(players):
+    """this function takes the key, 'guardians' and splits it into a list separated at ' and '
+        then the player['guardians'] is now set to the new_guardian list
+    """
     for player in players:
         for key, value in player.items():
             if key == 'guardians':
@@ -33,6 +43,13 @@ def clean_PLAYERS_guardians(players):
 
 
 def balanced_teams(team1, team2, team3):
+    """this function blanceses the teams and starts with a count of players on each team and a count of experienced 
+    and non experienced. you can't start with 0 people, it has to start with at least 1 person. We iterate for players 
+    in player_copy (which is the copy of the constants PLAYERS, that we made at the top) and we add a player unitl we 
+    reach 3 for experienced_players and 3 players for non_experienced_players. then we do the same for team 2 until we 
+    reach 6 for experienced and non_experienced. from there, that's 12 total players assigned to 2 teams (team1 and team2), 
+    which means theres only 6 players left over and they will be asigned to team3. these teams will be called on later.
+    """
     team1_total_players = 1
     team2_total_players = 1
     experienced_players = 1
@@ -97,14 +114,26 @@ def team_number():
 
 
 def print_team_stats(team):
+    """this function prints the team stats. starting with a count of 0 for number of players, experienced
+    and non-experienced, and height. We also start with a blank list of names and guardians. for each player
+    we're going to look at the current player and iterate over each item for the current_player as it relates
+    to the Key:Value pairs. if key is equal to 'name' then that name is added to name_list list. if key is
+    equal to 'guardians' then the guardians are added to the guardian_list (if there are multiple guardians
+    then they are separated by a comma , ). exeperienced and non-experienced are added to their respective counts
+    based on their boolean value. then the height is added to the count along with the number of players that
+    this for loop has iterated over. Next we're going to print the name_list and guardians_list joined together 
+    yet separated by commas. We're also going to print the number of experienced and non-experienced players on the
+    team. then we're going to print the average height, which is the height_value/num_players. Finally we'll
+    have a while loop that will ask if you want to see more stats, y/n?
+    """
     num_players = 0
     num_experienced_players = 0
     num_non_experienced_players = 0
     height_value = 0
     name_list = list()
     guardian_list = list()
-    for current_team in team:
-        for key, value in current_team.items():
+    for current_player in team:
+        for key, value in current_player.items():
             if key == 'name':
                 name_list.append(value)
             elif key == 'guardians':
@@ -135,6 +164,9 @@ def print_team_stats(team):
 
 
 def print_team(team):
+    """this function will print the team and the total number of players per team followed by
+        the team stats - this is all dependant on whatever team is selected.
+    """
     if team == team1:
         print("Team: Panthers Stats")
         print('-' * 20)
@@ -169,6 +201,10 @@ if __name__ == "__main__":
             team3 = list()
             balanced_teams(team1, team2, team3)
             print_team(team_number())
+            """this will trigger the team_number function, and based on the the team selected,
+            it will then trigger the print_team function which will also trigger the print_team_stats
+            function, which will then ask if you want to see more or if you want to quit
+            """
         elif answer == 2:
             end()
             break
