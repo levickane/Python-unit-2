@@ -1,14 +1,17 @@
 import constants
 import copy
+import sys
 
 total_players_per_team = len(constants.PLAYERS)/len(constants.TEAMS)
 players_copy = copy.deepcopy(constants.PLAYERS)
 
 
-def clean_PLAYERS_height(players):
+def clean_PLAYERS_info(players):
     """this function takes the value of the key, 'height' and splits it at the space.
         then we take the first object of the list [0] and convert that to an integer.
-        then we define that the player['height'] is now equal to that integer
+        then we define that the player['height'] is now equal to that integer. then we 
+        convert the 'experience' from YES or NO to TRUE or FALSE. then we split the 'guardians'
+        values at the ' and ' and store them as lists
     """
     for player in players:
         for key, value in player.items():
@@ -16,28 +19,12 @@ def clean_PLAYERS_height(players):
                 new_height = value.split(" ")
                 new_height[0] = int(new_height[0])
                 player['height'] = new_height[0]
-
-
-def clean_PLAYERS_experience(players):
-    """this function takes the key, 'experience' and if it's value == 'yes' then we set
-    the boolean value to TRUE. Else, we set the boolean value to FALSE
-    """
-    for player in players:
-        for key, value in player.items():
-            if key == 'experience':
+            elif key == 'experience':
                 if value == 'YES':
                     player['experience'] = True
                 else:
                     player['experience'] = False
-
-
-def clean_PLAYERS_guardians(players):
-    """this function takes the key, 'guardians' and splits it into a list separated at ' and '
-        then the player['guardians'] is now set to the new_guardian list
-    """
-    for player in players:
-        for key, value in player.items():
-            if key == 'guardians':
+            elif key == 'guardians':
                 new_guardian = value.split(" and ")
                 player['guardians'] = new_guardian
 
@@ -88,10 +75,6 @@ Here are your choices:
     """)
 
 
-def end():
-    print("See you next time!")
-
-
 def team_number():
     print("""
 ----Teams----
@@ -101,15 +84,19 @@ def team_number():
 3) Warriors
     """)
     while True:
-        number = int(input("Enter an option >  "))
-        if number == 1:
-            return team1
-        elif number == 2:
-            return team2
-        elif number == 3:
-            return team3
-        else:
-            print('Invalid entry, please try again.')
+        try:
+            number = int(input("Enter a team number >  "))
+            if number == 1:
+                return team1
+            elif number == 2:
+                return team2
+            elif number == 3:
+                return team3
+            else:
+                print('Invalid entry, please try again.')
+                continue
+        except ValueError:
+            print("That's not a TEAM NUMBER. Try again")
             continue
 
 
@@ -151,7 +138,7 @@ def print_team_stats(team):
     print(f'Total Experienced Players: {num_experienced_players}')
     print(f'Total Non-Experienced Players: {num_non_experienced_players}')
     print('Average Height: {}'.format(height_value/num_players) + '\n')
-    while True:
+    while True:    
         see_more = input("Would you like to see more team stats? Y/N ")
         if see_more.lower() == 'y':
             print_team(team_number())
@@ -161,7 +148,7 @@ def print_team_stats(team):
         else:
             print('That is not a valid entry, please try again')
             continue
-
+            
 
 def print_team(team):
     """this function will print the team and the total number of players per team followed by
@@ -187,28 +174,40 @@ def print_team(team):
     print_team_stats(team)
 
 
+def end():
+    """using sys.exit to exit the program or else it keeps looping and asking
+    for the same entry over and over again.
+    """
+    print("See you next time!")
+    sys.exit()
+
+
 if __name__ == "__main__":
     start()
     menu()
-    while True:
-        answer = int(input("Enter an option > "))
-        if answer == 1:
-            clean_PLAYERS_height(players_copy)
-            clean_PLAYERS_experience(players_copy)
-            clean_PLAYERS_guardians(players_copy)
-            team1 = list()
-            team2 = list()
-            team3 = list()
-            balanced_teams(team1, team2, team3)
-            print_team(team_number())
-            """this will trigger the team_number function, and based on the the team selected,
-            it will then trigger the print_team function which will also trigger the print_team_stats
-            function, which will then ask if you want to see more or if you want to quit
-            """
-        elif answer == 2:
-            end()
-            break
-        else:
-            print("Invalid entry, please try again.")
-            continue
+    while True:    
+        try:
+            answer = int(input("Enter an option > "))
+            if answer == 1:
+                clean_PLAYERS_info(players_copy)
+                team1 = list()
+                team2 = list()
+                team3 = list()
+                balanced_teams(team1, team2, team3)
+                print_team(team_number())
+                """this will trigger the team_number function, and based on the the team selected,
+                it will then trigger the print_team function which will also trigger the print_team_stats
+                function, which will then ask if you want to see more or if you want to quit
+                """
+            elif answer == 2:
+                end()
+                break
+            else:
+                print("Invalid entry, please try again.")
+                continue
+        except ValueError:
+            print("It's either the number 1 or the number 2. Nothing else.")
+            
+        
+            
         
