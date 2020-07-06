@@ -207,7 +207,3 @@ if __name__ == "__main__":
                 continue
         except ValueError:
             print("It's either the number 1 or the number 2. Nothing else.")
-            
-        
-            
-        
