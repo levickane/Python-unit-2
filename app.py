@@ -155,17 +155,17 @@ def print_team(team):
         the team stats - this is all dependant on whatever team is selected.
     """
     if team == team1:
-        print("Team: Panthers Stats")
+        print("Panthers' Stats")
         print('-' * 20)
         print(f"Total Players: {total_players_per_team} \n")
         print(f"Players on Team:")
     elif team == team2:
-        print("Team: Bandits Stats")
+        print("Bandits' Stats")
         print('-' * 20)
         print(f"Total Players: {total_players_per_team} \n")
         print(f"Players on Team:")
     elif team == team3:
-        print("Team: Warriors Stats")
+        print("Warriors' Stats")
         print('-' * 20)
         print(f"Total Players: {total_players_per_team} \n")
         print(f"Players on Team:")
